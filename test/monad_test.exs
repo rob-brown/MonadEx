@@ -9,27 +9,27 @@ defmodule Monad.Test do
     assert 42 ~>> &(&1 * &1) == 1764
   end
 
-  test "flat_map one" do
+  test "fmap one" do
     assert (&(&1)) <|> 42 == 42
   end
 
-  test "flat_map two" do
+  test "fmap two" do
     assert curry(&(&1 + &2)) <|> 42 <~> 100 == 142
   end
 
-  test "flat_map three" do
+  test "fmap three" do
     assert curry(&(&1 + &2 + &3)) <|> 42 <~> 100 <~> 1000 == 1142
   end
 
-  test "flat_map fail first" do
+  test "fmap fail first" do
     assert curry(&(&1 + &2 + &3)) <|> nil <~> 100 <~> 1000 == nil
   end
 
-  test "flat_map fail second" do
+  test "fmap fail second" do
     assert curry(&(&1 + &2 + &3)) <|> 42 <~> nil <~> 1000 == nil
   end
 
-  test "flat_map fail last" do
+  test "fmap fail last" do
     assert curry(&(&1 + &2 + &3)) <|> 42 <~> 100 <~> nil == nil
   end
 
