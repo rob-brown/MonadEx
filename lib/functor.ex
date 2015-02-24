@@ -8,6 +8,13 @@ defprotocol Functor do
   def fmap(value, fun)
 end
 
+defimpl Functor, for: List do
+
+  def fmap(list, fun) when is_function(fun, 1) do
+    list |> Enum.map(fun)
+  end
+end
+
 defimpl Functor, for: Function do
 
   def fmap(lhs_fun, rhs_fun) do

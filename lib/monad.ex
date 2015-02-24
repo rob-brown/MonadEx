@@ -24,6 +24,13 @@ end
 # What is the difference between a monoid and monad?
 # The writer can take any monoid. Since monoids can be appended, they work nicely with accumulating data.
 
+defimpl Monad, for: List do
+
+  def bind(list, fun) when is_function(fun, 1) do
+    list |> Enum.flat_map(fun)
+  end
+end
+
 defimpl Monad, for: Any do
 
   def bind(nil, fun) when is_function(fun, 1), do: nil

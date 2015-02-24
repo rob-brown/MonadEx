@@ -12,6 +12,13 @@ end
 
 # TODO: Test the applicative impl for functions.
 
+defimpl Applicative, for: List do
+
+  def apply(list, list_fun) do
+    Monad.bind(list_fun, &(Functor.fmap list, &1))
+  end
+end
+
 defimpl Applicative, for: Function do
 
   def apply(rhs_fun, lhs_fun) do

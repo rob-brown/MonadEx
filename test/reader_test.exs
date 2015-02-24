@@ -1,8 +1,7 @@
 defmodule Reader.Test do
   use ExUnit.Case, async: true
   use Monad.Operators
-  use Monad.Reader
-  use Curry
+  import Monad.Reader
 
   test "bind once" do
     reader = reader(fn _ -> 42 end)

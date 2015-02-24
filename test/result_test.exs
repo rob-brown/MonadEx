@@ -1,8 +1,8 @@
 defmodule Result.Test do
   use ExUnit.Case, async: true
   use Monad.Operators
-  use Monad.Result
-  use Curry
+  import Curry
+  import Monad.Result
 
   test "left identity law" do
     constructor = &(success &1)
@@ -22,17 +22,17 @@ defmodule Result.Test do
   end
 
   test "bind" do
-    assert success(42) ~>> &(success &1) |> Context.unwrap! == 42
-    assert success(42) ~>> &(success &1 * 2) |> Context.unwrap! == 84
-    assert success(42) ~>> &(success &1 * &1) |> Context.unwrap! == 1764
+    assert success(42) ~>> &(success &1) |> unwrap! == 42
+    assert success(42) ~>> &(success &1 * 2) |> unwrap! == 84
+    assert success(42) ~>> &(success &1 * &1) |> unwrap! == 1764
   end
 
   test "fmap one" do
-    assert (&(&1)) <|> success(42) |> Context.unwrap! == 42
+    assert (&(&1)) <|> success(42) |> unwrap! == 42
   end
 
   test "fmap two" do
-    assert curry(&(&1 + &2)) <|> success(42) <~> success(100) |> Context.unwrap! == 142
+    assert curry(&(&1 + &2)) <|> success(42) <~> success(100) |> unwrap! == 142
   end
 
   test "fmap three" do
@@ -40,7 +40,7 @@ defmodule Result.Test do
     <|> success(42)
     <~> success(100)
     <~> success(1000)
-    |> Context.unwrap! == 1142
+    |> unwrap! == 1142
   end
 
   test "fmap fail first" do
@@ -68,7 +68,7 @@ defmodule Result.Test do
   end
 
   test "apply success" do
-    assert success(&(&1 * 2)) <~> success(42) |> Context.unwrap! == 84
+    assert success(&(&1 * 2)) <~> success(42) |> unwrap! == 84
   end
 
   test "apply error" do

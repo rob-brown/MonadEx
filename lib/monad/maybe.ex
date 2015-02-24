@@ -1,4 +1,5 @@
 defmodule Monad.Maybe do
+  use Monad.Behaviour
 
   defstruct type: :none, value: nil
 
@@ -6,47 +7,16 @@ defmodule Monad.Maybe do
   def some(value), do: %Monad.Maybe{type: :some, value: value}
   def pure(value), do: some value
 
-  defmacro none?(maybe) do
-    quote do
-      unquote(maybe) == none
-    end
-  end
+  def unwrap!(%Monad.Maybe{type: :some, value: value}), do: value
+
+  defmacro none?(maybe), do: quote do: unquote(maybe) == none
 
   defmacro some?(maybe), do: not none?(maybe)
 
-  defmacro __using__(_) do
-    quote do
-      import Monad.Maybe
-    end
-  end
-end
-
-defimpl Context, for: Monad.Maybe do
-  def unwrap!(%Monad.Maybe{type: :some, value: value}), do: value
-end
-
-defimpl Functor, for: Monad.Maybe do
-  use Monad.Maybe
-
-  def fmap(maybe, fun) when none?(maybe) and is_function(fun, 1), do: maybe
-  def fmap(maybe, fun) when some?(maybe) and is_function(fun, 1) do
-    maybe |> Context.unwrap! |> fun.() |> pure
-  end
-end
-
-defimpl Applicative, for: Monad.Maybe do
-  use Monad.Maybe
-
-  def apply(maybe, maybe_fun) do
-    Monad.bind(maybe_fun, &(Functor.fmap maybe, &1))
-  end
-end
-
-defimpl Monad, for: Monad.Maybe do
-  use Monad.Maybe
+  def return(value), do: pure value
 
   def bind(maybe, fun) when none?(maybe) and is_function(fun, 1), do: maybe
   def bind(maybe, fun) when some?(maybe) and is_function(fun, 1) do
-    maybe |> Context.unwrap! |> fun.()
+    maybe |> unwrap! |> fun.()
   end
 end

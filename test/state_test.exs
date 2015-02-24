@@ -1,8 +1,7 @@
 defmodule State.Test do
   use ExUnit.Case, async: true
   use Monad.Operators
-  use Monad.State
-  use Curry
+  import Monad.State
 
   test "bind once" do
     state = state(fn s -> {0, s * s} end)

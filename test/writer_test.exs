@@ -1,8 +1,7 @@
 defmodule Writer.Test do
   use ExUnit.Case, async: true
   use Monad.Operators
-  use Monad.Writer
-  use Curry
+  import Monad.Writer
 
   test "bind once" do
     writer = (writer(42) ~>> (& writer &1, "I did it"))

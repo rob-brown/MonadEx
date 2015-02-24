@@ -1,8 +1,8 @@
 defmodule Maybe.Test do
   use ExUnit.Case, async: true
-  use Monad.Maybe
   use Monad.Operators
-  use Curry
+  import Curry
+  import Monad.Maybe
 
   test "left identity law" do
     constructor = &(some &1)
@@ -22,17 +22,17 @@ defmodule Maybe.Test do
   end
 
   test "bind" do
-    assert some(42) ~>> &(some &1) |> Context.unwrap! == 42
-    assert some(42) ~>> &(some &1 * 2) |> Context.unwrap! == 84
-    assert some(42) ~>> &(some &1 * &1) |> Context.unwrap! == 1764
+    assert some(42) ~>> &(some &1) |> unwrap! == 42
+    assert some(42) ~>> &(some &1 * 2) |> unwrap! == 84
+    assert some(42) ~>> &(some &1 * &1) |> unwrap! == 1764
   end
 
   test "fmap one" do
-    assert (&(&1)) <|> some(42) |> Context.unwrap! == 42
+    assert (&(&1)) <|> some(42) |> unwrap! == 42
   end
 
   test "fmap two" do
-    assert curry(&(&1 + &2)) <|> some(42) <~> some(100) |> Context.unwrap! == 142
+    assert curry(&(&1 + &2)) <|> some(42) <~> some(100) |> unwrap! == 142
   end
 
   test "fmap three" do
@@ -40,7 +40,7 @@ defmodule Maybe.Test do
            <|> some(42)
            <~> some(100)
            <~> some(1000)
-           |> Context.unwrap! == 1142
+           |> unwrap! == 1142
   end
 
   test "fmap fail first" do
@@ -56,7 +56,7 @@ defmodule Maybe.Test do
   end
 
   test "apply some" do
-    assert some(&(&1 * 2)) <~> some(42) |> Context.unwrap! == 84
+    assert some(&(&1 * 2)) <~> some(42) |> unwrap! == 84
   end
 
   test "apply none" do

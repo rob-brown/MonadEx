@@ -3,12 +3,6 @@ defmodule Curry do
   defmacro curry(fun) do
     quote do: Curry.Helper.curry unquote(fun)
   end
-
-  defmacro __using__(_) do
-    quote do
-      import Curry
-    end
-  end
 end
 
 defmodule Curry.Helper do

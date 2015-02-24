@@ -1,7 +1,7 @@
 defmodule Monad.Test do
   use ExUnit.Case, async: true
   use Monad.Operators
-  use Curry
+  import Curry
 
   test "bind" do
     assert 42 ~>> &(&1) == 42

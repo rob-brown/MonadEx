@@ -1,6 +1,6 @@
 defmodule Curry.Test do
   use ExUnit.Case, async: true
-  use Curry
+  import Curry
 
   test "Curry 0" do
     assert curry(fn -> 42 end).() == 42
