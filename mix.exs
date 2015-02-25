@@ -5,6 +5,9 @@ defmodule Monad.Mixfile do
     [app: :monad,
      version: "0.0.1",
      elixir: "~> 1.0",
+     name: "MonadEx",
+     source_url: "https://github.com/rob-brown/MonadEx",
+     homepage_url: "https://github.com/rob-brown/MonadEx",
      deps: deps]
   end
 
@@ -25,6 +28,9 @@ defmodule Monad.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.7", only: :dev},
+    ]
   end
 end
