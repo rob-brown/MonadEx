@@ -1,7 +1,8 @@
 defmodule Monad.State do
   use Monad.Behaviour
 
-  # `fun` takes some state and return {value, new_state}
+  @opaque t :: %__MODULE__{fun: (term -> {term, term})}
+  @doc false
   defstruct fun: nil
 
   def state(fun) when is_function(fun, 1), do: %Monad.State{fun: fun}

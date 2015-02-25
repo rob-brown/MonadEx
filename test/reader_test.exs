@@ -3,6 +3,8 @@ defmodule Reader.Test do
   use Monad.Operators
   import Monad.Reader
 
+  doctest Monad.Reader
+
   test "bind once" do
     reader = reader(fn _ -> 42 end)
               ~>> fn x -> assert x == 42; return 42 end

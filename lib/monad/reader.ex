@@ -1,6 +1,8 @@
 defmodule Monad.Reader do
   use Monad.Behaviour
 
+  @opaque t :: %__MODULE__{fun: (term -> term)}
+  @doc false
   defstruct fun: nil
 
   def reader(fun), do: %Monad.Reader{fun: fun}

@@ -3,6 +3,9 @@ defmodule Monad.Test do
   use Monad.Operators
   import Curry
 
+  doctest Monad.Operators
+  doctest Monad.Behaviour
+
   test "bind" do
     assert 42 ~>> &(&1) == 42
     assert 42 ~>> &(&1 * 2) == 84

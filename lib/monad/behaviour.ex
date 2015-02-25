@@ -7,7 +7,36 @@ defmodule Monad.Behaviour do
   2. Implement `return/1`
   3. Implement `bind/2`
 
-  By completing the above steps, the monad will automatically conform to the `Functor` and `Applicative` protocols too.
+  By completing the above steps, the monad will automatically conform to the
+  `Functor` and `Applicative` protocols in addition to the `Monad` protocol.
+
+  ## Example
+
+  The following is an example showing how to use `Monad.Behaviour`.
+
+      iex> defmodule Monad.Identity.Sample do
+      ...>   use Elixir.Monad.Behaviour  # The `Elixir` prefix is needed for the doctest.
+      ...>
+      ...>   defstruct value: nil
+      ...>
+      ...>   def return(value) do
+      ...>     %Monad.Identity.Sample{value: value}
+      ...>   end
+      ...>
+      ...>   def bind(%Monad.Identity.Sample{value: value}, fun) do
+      ...>     fun.(value)
+      ...>   end
+      ...>
+      ...>   def unwrap(%Monad.Identity.Sample{value: value}) do
+      ...>     value
+      ...>   end
+      ...> end
+      iex> m = Monad.Identity.Sample.return 42
+      iex> Monad.Identity.Sample.unwrap m
+      42
+      iex> m2 = Elixir.Monad.bind m, (& Monad.Identity.Sample.return &1 * 2)
+      iex> Monad.Identity.Sample.unwrap m2
+      84
   """
 
   use Behaviour

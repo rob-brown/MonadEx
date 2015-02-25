@@ -1,6 +1,8 @@
 defmodule Applicative.Law do
+  @moduledoc false
+  
 
-  # TODO: 
+  # TODO:
   # pure f <*> x = fmap f x
   # pure id <*> v = v
   # pure (.) <*> u <*> v <*> w = u <*> (v <*> w)

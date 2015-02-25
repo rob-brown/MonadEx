@@ -4,6 +4,8 @@ defmodule Result.Test do
   import Curry
   import Monad.Result
 
+  doctest Monad.Result
+
   test "left identity law" do
     constructor = &(success &1)
     fun = &(success(&1 * 2))

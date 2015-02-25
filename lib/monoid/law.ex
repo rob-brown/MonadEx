@@ -1,5 +1,7 @@
 defmodule Monoid.Law do
+  @moduledoc false
 
+  @doc false
   def closure?(monoid1, monoid2) when is_list(monoid1) and is_list(monoid2) do
     Monoid.mappend(monoid1, monoid2) |> is_list
   end
@@ -14,10 +16,12 @@ defmodule Monoid.Law do
     false
   end
 
+  @doc false
   def identity?(monoid, identity) do
     Monoid.mappend(monoid, identity) == monoid and Monoid.mappend(identity, monoid) == monoid
   end
 
+  @doc false
   def associativity?(monoid1, monoid2, monoid3) do
     Monoid.mappend(Monoid.mappend(monoid1, monoid2), monoid3) == Monoid.mappend(monoid1, Monoid.mappend(monoid2, monoid3))
   end

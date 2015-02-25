@@ -3,6 +3,8 @@ defmodule Writer.Test do
   use Monad.Operators
   import Monad.Writer
 
+  doctest Monad.Writer
+
   test "bind once" do
     writer = (writer(42) ~>> (& writer &1, "I did it"))
     assert writer == writer(42, "I did it")

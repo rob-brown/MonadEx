@@ -3,6 +3,8 @@ defmodule State.Test do
   use Monad.Operators
   import Monad.State
 
+  doctest Monad.State
+
   test "bind once" do
     state = state(fn s -> {0, s * s} end)
               ~>> fn x -> state fn s -> assert x == 0 and s == 16; {42, s * 2} end end

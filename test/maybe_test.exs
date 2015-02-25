@@ -4,6 +4,8 @@ defmodule Maybe.Test do
   import Curry
   import Monad.Maybe
 
+  doctest Monad.Maybe
+
   test "left identity law" do
     constructor = &(some &1)
     fun = &(some(&1 * 2))
