@@ -6,18 +6,42 @@ defmodule Result.Test do
 
   doctest Monad.Result
 
-  test "left identity law" do
+  test "functor identity" do
+    assert Functor.Law.identity?(success 42)
+  end
+
+  test "functor composition" do
+    assert Functor.Law.composition?(success(10), &(&1 * 2), &(&1 * &1))
+  end
+
+  test "applicative identity" do
+    assert Applicative.Law.identity? success(42), &return/1
+  end
+
+  test "applicative composition" do
+    assert Applicative.Law.composition? success(& &1 * 2), success(& &1 * 3), success(& &1 + 2), 42, &return/1
+  end
+
+  test "applicative homomorphism" do
+    assert Applicative.Law.homomorphism? (& &1 * 2), 42, &return/1
+  end
+
+  test "applicative interchange" do
+    assert Applicative.Law.interchange? success(& &1 * 2), 42, &return/1
+  end
+
+  test "monad left identity law" do
     constructor = &(success &1)
     fun = &(success(&1 * 2))
     assert Monad.Law.left_identity?(42, constructor, fun)
   end
 
-  test "right identity law" do
+  test "monad right identity law" do
     constructor = &(success &1)
     assert Monad.Law.right_identity?(success(42), constructor)
   end
 
-  test "associativity law" do
+  test "monad associativity law" do
     fun1 = &(success(&1 * 2))
     fun2 = &(success(&1 + 3))
     assert Monad.Law.associativity?(success(42), fun1, fun2)

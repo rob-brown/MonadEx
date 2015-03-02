@@ -1,9 +1,53 @@
 defmodule Reader.Test do
   use ExUnit.Case, async: true
   use Monad.Operators
+  import Curry
   import Monad.Reader
 
   doctest Monad.Reader
+
+  test "fmap with no input" do
+    reader = (& &1) <|> return 42
+    fun = runReader reader
+    assert fun.(:bogus) == 42
+
+    reader = (& &1 * 2) <|> return 42
+    fun = runReader reader
+    assert fun.(:bogus) == 84
+  end
+
+  test "fmap with input" do
+    reader = (& &1) <|> reader(& "Hello, " <> &1)
+    fun = runReader reader
+    assert fun.("World") == "Hello, World"
+
+    reader = (& &1 <> "!") <|> reader(& "Hello, " <> &1)
+    fun = runReader reader
+    assert fun.("World") == "Hello, World!"
+  end
+
+  test "apply two with no input" do
+    reader = curry(& &1 + &2) <|> return(4) <~> return(5)
+    fun = runReader reader
+    assert fun.(:bogus) == 9
+  end
+
+  test "apply two with input" do
+    reader = curry(& &1 + &2) <|> reader(& &1 * 2) <~> reader(& &1 * &1)
+    fun = runReader reader
+    assert fun.(2) == 8
+    assert fun.(10) == 120
+  end
+
+  test "apply three with input" do
+    reader = curry(& &1 + &2 + &3)
+              <|> reader(& &1 * 2)
+              <~> reader(& &1 * &1)
+              <~> reader(& &1 - 2)
+    fun = runReader reader
+    assert fun.(2) == 8
+    assert fun.(10) == 128
+  end
 
   test "bind once" do
     reader = reader(fn _ -> 42 end)

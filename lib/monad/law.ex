@@ -11,15 +11,15 @@ defmodule Monad.Law do
   # In Haskell:
   # (return x) >>= f ≡ f x
   @doc false
-  def left_identity?(value, construct_fun, fun) do
-    (construct_fun.(value) ~>> fun) == fun.(value)
+  def left_identity?(value, return_fun, fun) do
+    (return_fun.(value) ~>> fun) == fun.(value)
   end
 
   # In Haskell:
   # m >>= return ≡ m
   @doc false
-  def right_identity?(monad, construct_fun) do
-    (monad ~>> construct_fun) == monad
+  def right_identity?(monad, return_fun) do
+    (monad ~>> return_fun) == monad
   end
 
   # In Haskell:

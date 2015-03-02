@@ -1,9 +1,19 @@
 defprotocol Functor do
+  @moduledoc """
+  > Functors are mappings or homomorphisms between categories
+  –[Wikipedia](https://en.wikipedia.org/wiki/Functor)
+
+  Functors always take one parameter. They also preserve identity and
+  composition (see `Functor.Law`).
+  """
+
   @fallback_to_any true
 
-  # Takes a function and a functor and returns a functor.
-  # fmap :: (a -> b) -> f a -> f b
-  # ((a -> b), functor<a>) -> functor<b>
+  @doc """
+  Takes a function and a functor and returns a functor.
+
+  In Haskell types: fmap :: (a -> b) -> f a -> f b
+  """
   @spec fmap(t, (term -> term)) :: t
   def fmap(value, fun)
 end

@@ -1,9 +1,38 @@
 defmodule State.Test do
   use ExUnit.Case, async: true
   use Monad.Operators
+  import Curry
   import Monad.State
 
   doctest Monad.State
+
+  test "simple fmap" do
+    state = (& &1) <|> return(42)
+    assert runState(state).("Some environment") == {42, "Some environment"}
+  end
+
+  test "fmap with state modification" do
+    state = (& &1 * 2) <|> state(& {42, "Hello, " <> &1})
+    assert runState(state).("World") == {84, "Hello, World"}
+  end
+
+  test "apply two" do
+    state = curry(& &1 + &2) <|> return(4) <~> return(5)
+    assert runState(state).("Some environment") == {9, "Some environment"}
+  end
+
+  test "apply two with state modification" do
+    state = curry(& &1 + &2) <|> state(& {4, &1 <> "!"}) <~> state(& {5, &1 <> "?"})
+    assert runState(state).("State") == {9, "State!?"}
+  end
+
+  test "apply three with state modification" do
+    state = curry(& &1 + &2 + &3)
+            <|> state(& {4, &1 <> "!"})
+            <~> state(& {5, &1 <> "?"})
+            <~> state(& {6, "«#{&1}»"})
+    assert runState(state).("State") == {15, "«State!?»"}
+  end
 
   test "bind once" do
     state = state(fn s -> {0, s * s} end)

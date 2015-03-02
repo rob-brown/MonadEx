@@ -44,6 +44,46 @@ Monads may be combined to make even more useful constructs. For example, you may
 3. Random number generation
 4. Memoization
 
+## Resources for Understanding Monads
+
+* [Functors, Applicatives, and Monads in Pictures](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html)
+* [Three Useful Monads](http://adit.io/posts/2013-06-10-three-useful-monads.html)
+* [Functors, Applicative Functors, and Monoids](http://learnyouahaskell.com/functors-applicative-functors-and-monoids)
+* [A Fistful of Monads](http://learnyouahaskell.com/a-fistful-of-monads)
+* [A Few Monads More](http://learnyouahaskell.com/for-a-few-monads-more)
+* [Category Theory for Beginners](http://www.slideshare.net/kenbot/category-theory-for-beginners)
+* [Functional Programming Patterns](http://www.slideshare.net/ScottWlaschin/fp-patterns-buildstufflt)
+* [Haskell Docs](https://wiki.haskell.org/Monad)
+* [Wikipedia](https://en.wikipedia.org/wiki/Monad_(functional_programming))
+
+## Troubleshooting
+
+Many of the problems that arise with monads is first not understanding functors,
+applicatives, and monads. See the listed resources for learning more about
+these concepts.
+
+Another gotcha to watch out for is omitting parentheses. Omitting unnecessary
+parentheses is a great feature; however, just like Elixir's built-in pipelines,
+forgetting parentheses can create ambiguity and unexpected results. For example,
+the following (contrived) code is ambiguous:
+
+    monad
+    ~>> transform flag
+    ~>> process :all
+
+It should instead be replaced with:
+
+    monad
+    ~>> transform(flag)
+    ~>> process(:all)
+
+## Contributing
+
+Code contributions are welcomed. In order to maintain the integrity of the
+project, all pull requests must contain documentation and unit tests. See the
+existing tests and documentation for examples. Some easy ideas to contribute is
+to add more types of monads.
+
 ## License
 
 `MonadEx` is licensed under the MIT license, which is reproduced in its entirety here:

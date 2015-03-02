@@ -2,8 +2,8 @@ defmodule Monad.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :monad,
-     version: "0.0.1",
+    [app: :monadex,
+     version: "1.0.0",
      elixir: "~> 1.0",
      name: "MonadEx",
      source_url: "https://github.com/rob-brown/MonadEx",

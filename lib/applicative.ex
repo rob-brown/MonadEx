@@ -1,16 +1,24 @@
 defprotocol Applicative do
+  @moduledoc """
+  Applicative functors, or applicatives for short, are like functors, except
+  they can apply more than one parameter. They do so by currying the function,
+  and applying one parameter at a time (see `Curry`).
+
+  Applicatives must also follow follow four laws: identity, composition,
+  homomorphism, and interchange (see `Applicative.Law`).
+  """
+
   @fallback_to_any true
 
-  # Takes an applicative function and an applicative value and returns an applicative.
-  # (applicative<(b -> c)>, applicative<b>) -> applicative<c>
+  @doc """
+  Takes an applicative holding a function and an applicative holding value and
+  returns an applicative.
+
+  (applicative<(b -> c)>, applicative<b>) -> applicative<c>
+  """
   @spec apply(t, t) :: t
   def apply(value, fun)
-
-  # How will this work if I don't know the type?
-  # def pure(module, value)
 end
-
-# TODO: Test the applicative impl for functions.
 
 defimpl Applicative, for: List do
 
@@ -27,10 +35,6 @@ defimpl Applicative, for: Function do
 end
 
 defimpl Applicative, for: Any do
-
-  # def pure(module, value) do
-  #   module.pure(value)
-  # end
 
   def apply(value, fun) do
     Monad.bind(fun, &(Functor.fmap value, &1))
