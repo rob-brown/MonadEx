@@ -18,9 +18,9 @@ defmodule Monad.Operators do
   end
 
   @doc """
-  The apply operator.
+  The fmap or functor map operator.
 
-  See `Applicative.apply/2` for more details.
+  See `Functor.fmap/2` for more details.
   """
   defmacro lhs <|> rhs do
     quote bind_quoted: [lhs: lhs, rhs: rhs] do
@@ -29,9 +29,9 @@ defmodule Monad.Operators do
   end
 
   @doc """
-  The fmap or functor map operator.
+  The apply operator.
 
-  See `Functor.fmap/2` for more details.
+  See `Applicative.apply/2` for more details.
   """
   defmacro lhs <~> rhs do
     quote bind_quoted: [lhs: lhs, rhs: rhs] do
