@@ -4,7 +4,7 @@ defprotocol Applicative do
   they can apply more than one parameter. They do so by currying the function,
   and applying one parameter at a time (see `Curry`).
 
-  Applicatives must also follow follow four laws: identity, composition,
+  Applicatives must also follow four laws: identity, composition,
   homomorphism, and interchange (see `Applicative.Law`).
   """
 
