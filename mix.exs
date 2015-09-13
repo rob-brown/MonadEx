@@ -3,7 +3,7 @@ defmodule Monad.Mixfile do
 
   def project do
     [app: :monadex,
-     version: "1.0.0",
+     version: "1.0.1",
      elixir: "~> 1.0",
      name: "MonadEx",
      source_url: "https://github.com/rob-brown/MonadEx",

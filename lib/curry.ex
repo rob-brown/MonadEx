@@ -40,23 +40,15 @@ defmodule Curry.Helper do
 
   @doc false
   @spec curry((... -> term)) :: (term -> term)
-  def curry(fun) when is_function(fun, 0) or is_function(fun, 1) do
-    fun
-  end
-  def curry(fun) when is_function(fun, 2) do
-    fn a -> fn b -> fun.(a, b) end end
-  end
-  def curry(fun) when is_function(fun, 3) do
-    fn a -> fn b -> fn c -> fun.(a, b, c) end end end
-  end
-  def curry(fun) when is_function(fun, 4) do
-    fn a -> fn b -> fn c -> fn d -> fun.(a, b, c, d) end end end end
-  end
-  def curry(fun) when is_function(fun, 5) do
-    fn a -> fn b -> fn c -> fn d -> fn e -> fun.(a, b, c, d, e) end end end end end
-  end
-  def curry(fun) when is_function(fun, 6) do
-    fn a -> fn b -> fn c -> fn d -> fn e -> fn f -> fun.(a, b, c, d, e, f) end end end end end end
-  end
-  def curry(_fun), do: IO.puts "Too many parameters."
+  def curry(fun) when is_function(fun, 0), do: fun
+  def curry(fun) when is_function(fun), do: curry(fun, arity(fun), [])
+
+  @doc false
+  defp curry(fun, 0, args), do: apply(fun, Enum.reverse(args))
+  defp curry(fun, n, args), do: (& curry fun, n - 1, [&1 | args])
+
+  @doc false
+  defp arity(f) when is_function(f), do: arity(f, 0)
+  defp arity(f, n) when is_function(f, n), do: n
+  defp arity(f, n), do: arity(f, n + 1)
 end
