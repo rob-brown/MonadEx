@@ -22,7 +22,7 @@ defmodule Monad.Mixfile do
   defp deps do
     [
       {:earmark, "~> 0.1", only: :dev},
-      {:ex_doc, "~> 0.7", only: :dev},
+      {:ex_doc, ">= 0.0.0", only: :dev}
     ]
   end
 
