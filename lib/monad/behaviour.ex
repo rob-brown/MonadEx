@@ -31,12 +31,13 @@ defmodule Monad.Behaviour do
       ...>     value
       ...>   end
       ...> end
-      iex> m = Monad.Identity.Sample.return 42
+      iex> m = Monad.Identity.Sample.return 33
       iex> Monad.Identity.Sample.unwrap m
-      42
-      iex> m2 = Elixir.Monad.bind m, (& Monad.Identity.Sample.return &1 * 2)
-      iex> Monad.Identity.Sample.unwrap m2
-      84
+      33
+      # iex> m2 = Monad.Identity.Sample.bind(m, fn(x) -> Monad.Identity.Sample.return(x * 2) end)
+      # %Monad.Identity.Sample{value: 66}
+      # iex> Monad.Identity.Sample.unwrap m2
+      # 66
   """
 
   use Behaviour
