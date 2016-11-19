@@ -4,14 +4,17 @@ defmodule Monad.Mixfile do
   def project do
     [
       app: :monadex,
-      version: "1.0.2",
-      elixir: "~> 1.0",
+      version: "1.1.0",
+      elixir: "~> 1.3.4",
       name: "MonadEx",
       source_url: "https://github.com/rob-brown/MonadEx",
       homepage_url: "https://github.com/rob-brown/MonadEx",
       deps: deps,
       description: description,
       package: package,
+      build_embedded: Mix.env == :prod,
+      start_permanent: Mix.env == :prod,
+      consolidate_protocols: Mix.env != :test,
    ]
   end
 
@@ -21,8 +24,8 @@ defmodule Monad.Mixfile do
 
   defp deps do
     [
-      {:earmark, "~> 0.1", only: :dev},
-      {:ex_doc, "~> 0.7", only: :dev},
+      {:earmark, "~> 1.0.3", only: :dev},
+      {:ex_doc, "~> 0.14.3", only: :dev},
     ]
   end
 

@@ -7,11 +7,11 @@ defmodule Reader.Test do
   doctest Monad.Reader
 
   test "fmap with no input" do
-    reader = (& &1) <|> return 42
+    reader = (& &1) <|> return(42)
     fun = runReader reader
     assert fun.(:bogus) == 42
 
-    reader = (& &1 * 2) <|> return 42
+    reader = (& &1 * 2) <|> return(42)
     fun = runReader reader
     assert fun.(:bogus) == 84
   end

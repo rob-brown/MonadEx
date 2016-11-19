@@ -93,7 +93,7 @@ defmodule Monad.Maybe do
   For `none` monads, `none` is returned without evaluating `fun`.
 
       iex> m = some 42
-      iex> n = bind m, (& some &1 * 2)
+      iex> bind m, (& some &1 * 2)
       %Monad.Maybe{type: :some, value: 84}
 
       iex> bind none, (& some &1 * 2)

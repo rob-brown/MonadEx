@@ -34,7 +34,7 @@ defmodule Monad.Behaviour do
       iex> m = Monad.Identity.Sample.return 42
       iex> Monad.Identity.Sample.unwrap m
       42
-      iex> m2 = Elixir.Monad.bind m, (& Monad.Identity.Sample.return &1 * 2)
+      iex> m2 = Elixir.Monad.bind m, (& Monad.Identity.Sample.return(&1 * 2))
       iex> Monad.Identity.Sample.unwrap m2
       84
   """
@@ -44,8 +44,8 @@ defmodule Monad.Behaviour do
   @type t :: Monad.t
   @type bind_fun :: (term -> t)
 
-  defcallback return(value :: term) :: t
-  defcallback bind(monad :: t, fun :: bind_fun) :: t
+  @callback return(value :: term) :: t
+  @callback bind(monad :: t, fun :: bind_fun) :: t
 
   @doc """
   Calls `module`'s `return/1` function.
