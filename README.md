@@ -88,7 +88,7 @@ to add more types of monads.
 
 `MonadEx` is licensed under the MIT license, which is reproduced in its entirety here:
 
->Copyright (c) 2015 Robert Brown
+>Copyright (c) 2015–2016 Robert Brown
 >
 >Permission is hereby granted, free of charge, to any person obtaining a copy
 >of this software and associated documentation files (the "Software"), to deal
