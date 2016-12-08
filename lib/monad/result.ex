@@ -89,6 +89,21 @@ defmodule Monad.Result do
   def from_tuple({:error, reason}), do: error reason
 
   @doc """
+  Converts the `Monad.Result` to a tagged tuple.
+
+      iex> s = success 42
+      iex> to_tuple s
+      {:ok, 42}
+
+      iex> e = error :badarg
+      iex> to_tuple e
+      {:error, :badarg}
+  """
+  @spec to_tuple(t) :: result_tuple
+  def to_tuple(%__MODULE__{type: :ok, value: value}), do: {:ok, value}
+  def to_tuple(%__MODULE__{type: :error, error: error}), do: {:error, error}
+
+  @doc """
   Unwraps the value from a success monad.
 
   Does not work with error monads.
