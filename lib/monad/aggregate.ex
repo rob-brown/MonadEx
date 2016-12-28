@@ -2,7 +2,7 @@ defmodule Monad.Aggregate do
   @moduledoc """
   This is an aggregate monad.
   For using this monad just create your aggregate with:
-    ** *handle* functions for commands
+    ** *execute* functions for commands
     ** *apply* functions for the events.
     ** ** defstruct for the state structure definition
   Check the example in the test file.
@@ -34,7 +34,7 @@ defmodule Monad.Aggregate do
     cmds = cmds |> List.wrap
     & Enum.reduce(cmds, return(&1),
       fn cmd, monad ->
-        new_monad = aggregate(monad.state, handle(monad.state, cmd))
+        new_monad = aggregate(monad.state, execute(monad.state, cmd))
         %__MODULE__{state: new_monad.state, events: monad.events ++ new_monad.events}
       end)
   end
@@ -51,7 +51,7 @@ defmodule Monad.Aggregate do
   defp apply_event(event, state), do:
     state.__struct__.apply(state, event)
 
-  defp handle(state,cmd), do:
-    List.wrap(state.__struct__.handle(state, cmd))
+  defp execute(state,cmd), do:
+    List.wrap(state.__struct__.execute(state, cmd))
 
 end

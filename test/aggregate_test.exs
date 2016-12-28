@@ -15,8 +15,8 @@ defmodule Test.Monad.Aggregate.InstanceTest do
 
   defstruct [value: 0]
 
-  def handle(%Aggregate{}, %Add{amount: amount}),                   do: %Added{amount: amount}
-  def handle(%Aggregate{}, %Subtract{amount: amount}),              do: %Subtracted{amount: amount}
+  def execute(%Aggregate{}, %Add{amount: amount}),                   do: %Added{amount: amount}
+  def execute(%Aggregate{}, %Subtract{amount: amount}),              do: %Subtracted{amount: amount}
   def apply(%Aggregate{value: value}, %Added{amount: amount}),      do: %Aggregate{value: value + amount}
   def apply(%Aggregate{value: value}, %Subtracted{amount: amount}), do: %Aggregate{value: value - amount}
 end
@@ -32,8 +32,8 @@ defmodule Aggregate.Test do
 
   test "monad aggregate" do
     state = %A{}
-    a_events = A.handle(state, %Add{amount: 4})
-    s_events = A.handle(state, %Subtract{amount: 3})
+    a_events = A.execute(state, %Add{amount: 4})
+    s_events = A.execute(state, %Subtract{amount: 3})
     a = &(aggregate(&1, a_events))
     s = &(aggregate(&1, s_events))
     assert left_identity?(%A{}, &return/1, a)
