@@ -62,15 +62,15 @@ defmodule Maybe.Test do
   end
 
   test "apply fail first" do
-    assert curry(&(&1 + &2 + &3)) <|> none <~> some(100) <~> some(1000) |> none?
+    assert curry(&(&1 + &2 + &3)) <|> none() <~> some(100) <~> some(1000) |> none?
   end
 
   test "apply fail second" do
-    assert curry(&(&1 + &2 + &3)) <|> some(42) <~> none <~> some(1000) |> none?
+    assert curry(&(&1 + &2 + &3)) <|> some(42) <~> none() <~> some(1000) |> none?
   end
 
   test "apply fail last" do
-    assert curry(&(&1 + &2 + &3)) <|> some(42) <~> some(100) <~> none |> none?
+    assert curry(&(&1 + &2 + &3)) <|> some(42) <~> some(100) <~> none() |> none?
   end
 
   test "apply some" do
@@ -78,11 +78,11 @@ defmodule Maybe.Test do
   end
 
   test "apply none" do
-    assert some(&(&1 * 2)) <~> none |> none?
+    assert some(&(&1 * 2)) <~> none() |> none?
   end
 
   test "apply none fun" do
-    assert none <~> some(42) |> none?
+    assert none() <~> some(42) |> none?
   end
 
   test "bind" do

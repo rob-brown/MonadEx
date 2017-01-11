@@ -39,8 +39,6 @@ defmodule Monad.Behaviour do
       84
   """
 
-  use Behaviour
-
   @type t :: Monad.t
   @type bind_fun :: (term -> t)
 

@@ -54,19 +54,19 @@ defmodule Monad.Maybe do
 
   This macro may be used in guard clauses.
 
-      iex> none? none
+      iex> none? none()
       true
       iex> none? some 42
       false
   """
-  defmacro none?(maybe), do: quote do: unquote(maybe) == none
+  defmacro none?(maybe), do: quote do: unquote(maybe) == none()
 
   @doc """
   Macro that indicates if the maybe monad contains something.
 
   This macro may be used in guard clauses.
 
-      iex> some? none
+      iex> some? none()
       false
       iex> some? some 42
       true
@@ -96,8 +96,8 @@ defmodule Monad.Maybe do
       iex> bind m, (& some &1 * 2)
       %Monad.Maybe{type: :some, value: 84}
 
-      iex> bind none, (& some &1 * 2)
-      none
+      iex> bind none(), (& some &1 * 2)
+      %Monad.Maybe{type: :none, value: nil}
   """
   @spec bind(t, (term -> t)) :: t
   def bind(maybe, fun) when none?(maybe) and is_function(fun, 1), do: maybe
