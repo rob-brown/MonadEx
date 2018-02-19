@@ -21,22 +21,19 @@ defprotocol Applicative do
 end
 
 defimpl Applicative, for: List do
-
   def apply(list, list_fun) do
-    Monad.bind(list_fun, &(Functor.fmap list, &1))
+    Monad.bind(list_fun, &Functor.fmap(list, &1))
   end
 end
 
 defimpl Applicative, for: Function do
-
   def apply(rhs_fun, lhs_fun) do
     &(&1 |> rhs_fun.() |> lhs_fun.())
   end
 end
 
 defimpl Applicative, for: Any do
-
   def apply(value, fun) do
-    Monad.bind(fun, &(Functor.fmap value, &1))
+    Monad.bind(fun, &Functor.fmap(value, &1))
   end
 end

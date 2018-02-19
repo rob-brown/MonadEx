@@ -20,7 +20,7 @@ defmodule Monad.Maybe do
   @doc """
   Returns a "nothing" state.
   """
-  defmacro none, do: quote do: %Monad.Maybe{}
+  defmacro none, do: quote(do: %Monad.Maybe{})
 
   @doc """
   Wraps the value into a maybe monad.
@@ -35,7 +35,7 @@ defmodule Monad.Maybe do
   An alias for `some/1`.
   """
   @spec pure(term) :: t
-  def pure(value), do: some value
+  def pure(value), do: some(value)
 
   @doc """
   Unwraps the value from a maybe monad.
@@ -59,7 +59,7 @@ defmodule Monad.Maybe do
       iex> none? some 42
       false
   """
-  defmacro none?(maybe), do: quote do: unquote(maybe) == none()
+  defmacro none?(maybe), do: quote(do: unquote(maybe) == none())
 
   @doc """
   Macro that indicates if the maybe monad contains something.
@@ -71,7 +71,7 @@ defmodule Monad.Maybe do
       iex> some? some 42
       true
   """
-  defmacro some?(maybe), do: quote do: not none?(unquote maybe)
+  defmacro some?(maybe), do: quote(do: not none?(unquote(maybe)))
 
   @doc """
   Callback implementation of `Monad.Behaviour.return/1`.
@@ -82,7 +82,7 @@ defmodule Monad.Maybe do
       %Monad.Maybe{type: :some, value: 42}
   """
   @spec return(term) :: t
-  def return(value), do: pure value
+  def return(value), do: pure(value)
 
   @doc """
   Callback implementation of `Monad.Behaviour.bind/2`.
@@ -101,6 +101,7 @@ defmodule Monad.Maybe do
   """
   @spec bind(t, (term -> t)) :: t
   def bind(maybe, fun) when none?(maybe) and is_function(fun, 1), do: maybe
+
   def bind(maybe, fun) when some?(maybe) and is_function(fun, 1) do
     maybe |> unwrap! |> fun.()
   end

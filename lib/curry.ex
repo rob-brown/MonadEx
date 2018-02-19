@@ -31,7 +31,7 @@ defmodule Curry do
       12
   """
   defmacro curry(fun) do
-    quote do: Curry.Helper.curry unquote(fun)
+    quote do: Curry.Helper.curry(unquote(fun))
   end
 end
 
@@ -45,7 +45,7 @@ defmodule Curry.Helper do
 
   @doc false
   defp curry(fun, 0, args), do: apply(fun, Enum.reverse(args))
-  defp curry(fun, n, args), do: (& curry fun, n - 1, [&1 | args])
+  defp curry(fun, n, args), do: &curry(fun, n - 1, [&1 | args])
 
   @doc false
   defp arity(f) when is_function(f), do: arity(f, 0)

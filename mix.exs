@@ -12,10 +12,10 @@ defmodule Monad.Mixfile do
       deps: deps(),
       description: description(),
       package: package(),
-      build_embedded: Mix.env == :prod,
-      start_permanent: Mix.env == :prod,
-      consolidate_protocols: Mix.env != :test,
-   ]
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      consolidate_protocols: Mix.env() != :test
+    ]
   end
 
   def application do
@@ -25,7 +25,7 @@ defmodule Monad.Mixfile do
   defp deps do
     [
       {:earmark, "~> 1.2.4", only: :dev},
-      {:ex_doc, "~> 0.18.3", only: :dev},
+      {:ex_doc, "~> 0.18.3", only: :dev}
     ]
   end
 
@@ -39,7 +39,7 @@ defmodule Monad.Mixfile do
     [
       maintainers: ["Robert Brown"],
       licenses: ["MIT"],
-      links: %{github: "https://github.com/rob-brown/MonadEx"},
+      links: %{github: "https://github.com/rob-brown/MonadEx"}
     ]
   end
 end

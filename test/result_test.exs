@@ -7,7 +7,7 @@ defmodule Result.Test do
   doctest Monad.Result
 
   test "functor identity" do
-    assert Functor.Law.identity?(success 42)
+    assert Functor.Law.identity?(success(42))
   end
 
   test "functor composition" do
@@ -15,46 +15,52 @@ defmodule Result.Test do
   end
 
   test "applicative identity" do
-    assert Applicative.Law.identity? success(42), &return/1
+    assert Applicative.Law.identity?(success(42), &return/1)
   end
 
   test "applicative composition" do
-    assert Applicative.Law.composition? success(& &1 * 2), success(& &1 * 3), success(& &1 + 2), 42, &return/1
+    assert Applicative.Law.composition?(
+             success(&(&1 * 2)),
+             success(&(&1 * 3)),
+             success(&(&1 + 2)),
+             42,
+             &return/1
+           )
   end
 
   test "applicative homomorphism" do
-    assert Applicative.Law.homomorphism? (& &1 * 2), 42, &return/1
+    assert Applicative.Law.homomorphism?(&(&1 * 2), 42, &return/1)
   end
 
   test "applicative interchange" do
-    assert Applicative.Law.interchange? success(& &1 * 2), 42, &return/1
+    assert Applicative.Law.interchange?(success(&(&1 * 2)), 42, &return/1)
   end
 
   test "monad left identity law" do
-    constructor = &(success &1)
-    fun = &(success(&1 * 2))
+    constructor = &success(&1)
+    fun = &success(&1 * 2)
     assert Monad.Law.left_identity?(42, constructor, fun)
   end
 
   test "monad right identity law" do
-    constructor = &(success &1)
+    constructor = &success(&1)
     assert Monad.Law.right_identity?(success(42), constructor)
   end
 
   test "monad associativity law" do
-    fun1 = &(success(&1 * 2))
-    fun2 = &(success(&1 + 3))
+    fun1 = &success(&1 * 2)
+    fun2 = &success(&1 + 3)
     assert Monad.Law.associativity?(success(42), fun1, fun2)
   end
 
   test "bind" do
-    assert success(42) ~>> &(success &1) |> unwrap! == 42
-    assert success(42) ~>> &(success &1 * 2) |> unwrap! == 84
-    assert success(42) ~>> &(success &1 * &1) |> unwrap! == 1764
+    assert success(42) ~>> &(success(&1) |> unwrap! == 42)
+    assert success(42) ~>> &(success(&1 * 2) |> unwrap! == 84)
+    assert success(42) ~>> &(success(&1 * &1) |> unwrap! == 1764)
   end
 
   test "fmap one" do
-    assert (&(&1)) <|> success(42) |> unwrap! == 42
+    assert (& &1) <|> success(42) |> unwrap! == 42
   end
 
   test "fmap two" do
@@ -63,10 +69,10 @@ defmodule Result.Test do
 
   test "fmap three" do
     assert curry(&(&1 + &2 + &3))
-    <|> success(42)
-    <~> success(100)
-    <~> success(1000)
-    |> unwrap! == 1142
+           <|> success(42)
+           <~> success(100)
+           <~> success(1000)
+           |> unwrap! == 1142
   end
 
   test "fmap fail first" do

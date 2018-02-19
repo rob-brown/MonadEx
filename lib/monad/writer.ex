@@ -12,7 +12,7 @@ defmodule Monad.Writer do
 
   use Monad.Behaviour
 
-  @opaque t :: %__MODULE__{value: term, log: Monoid.t | :nil_monoid}
+  @opaque t :: %__MODULE__{value: term, log: Monoid.t() | :nil_monoid}
   @doc false
   defstruct value: nil, log: :nil_monoid
 
@@ -31,7 +31,7 @@ defmodule Monad.Writer do
       iex> writer 42, "The answer"
       %Monad.Writer{value: 42, log: "The answer"}
   """
-  @spec writer(term, Monoid.t) :: t
+  @spec writer(term, Monoid.t()) :: t
   def writer(value, log), do: %Monad.Writer{value: value, log: log}
 
   @doc """
@@ -41,7 +41,7 @@ defmodule Monad.Writer do
       iex> runWriter w
       {42, "The answer"}
   """
-  @spec runWriter(t) :: {term, Monoid.t}
+  @spec runWriter(t) :: {term, Monoid.t()}
   def runWriter(writer), do: {writer.value, writer.log}
 
   @doc """
@@ -53,7 +53,7 @@ defmodule Monad.Writer do
       %Monad.Writer{value: 42, log: :nil_monoid}
   """
   @spec return(term) :: t
-  def return(value), do: writer value
+  def return(value), do: writer(value)
 
   @doc """
   Callback implementation of `Monad.Behaviour.bind/2`.
@@ -70,7 +70,7 @@ defmodule Monad.Writer do
   def bind(writer, fun) when is_function(fun, 1) do
     {val1, monoid1} = writer |> runWriter
     {val2, monoid2} = val1 |> fun.() |> runWriter
-    writer val2, merge_monoids(monoid1, monoid2)
+    writer(val2, merge_monoids(monoid1, monoid2))
   end
 
   ## Helpers

@@ -7,7 +7,7 @@ defmodule Maybe.Test do
   doctest Monad.Maybe
 
   test "functor identity" do
-    assert Functor.Law.identity?(some 42)
+    assert Functor.Law.identity?(some(42))
   end
 
   test "functor composition" do
@@ -15,23 +15,29 @@ defmodule Maybe.Test do
   end
 
   test "applicative identity" do
-    assert Applicative.Law.identity? some(42), &return/1
+    assert Applicative.Law.identity?(some(42), &return/1)
   end
 
   test "applicative composition" do
-    assert Applicative.Law.composition? some(& &1 * 2), some(& &1 * 3), some(& &1 + 2), 42, &return/1
+    assert Applicative.Law.composition?(
+             some(&(&1 * 2)),
+             some(&(&1 * 3)),
+             some(&(&1 + 2)),
+             42,
+             &return/1
+           )
   end
 
   test "applicative homomorphism" do
-    assert Applicative.Law.homomorphism? (& &1 * 2), 42, &return/1
+    assert Applicative.Law.homomorphism?(&(&1 * 2), 42, &return/1)
   end
 
   test "applicative interchange" do
-    assert Applicative.Law.interchange? some(& &1 * 2), 42, &return/1
+    assert Applicative.Law.interchange?(some(&(&1 * 2)), 42, &return/1)
   end
 
   test "monad left identity law" do
-    fun = &(some(&1 * 2))
+    fun = &some(&1 * 2)
     assert Monad.Law.left_identity?(42, &return/1, fun)
   end
 
@@ -40,8 +46,8 @@ defmodule Maybe.Test do
   end
 
   test "monad associativity law" do
-    fun1 = &(some(&1 * 2))
-    fun2 = &(some(&1 + 3))
+    fun1 = &some(&1 * 2)
+    fun2 = &some(&1 + 3)
     assert Monad.Law.associativity?(some(42), fun1, fun2)
   end
 
@@ -86,8 +92,8 @@ defmodule Maybe.Test do
   end
 
   test "bind" do
-    assert some(42) ~>> &(some &1) |> unwrap! == 42
-    assert some(42) ~>> &(some &1 * 2) |> unwrap! == 84
-    assert some(42) ~>> &(some &1 * &1) |> unwrap! == 1764
+    assert some(42) ~>> &(some(&1) |> unwrap! == 42)
+    assert some(42) ~>> &(some(&1 * 2) |> unwrap! == 84)
+    assert some(42) ~>> &(some(&1 * &1) |> unwrap! == 1764)
   end
 end

@@ -13,7 +13,7 @@ defmodule Monad.Operators do
   """
   defmacro lhs ~>> rhs do
     quote bind_quoted: [lhs: lhs, rhs: rhs] do
-      Monad.bind lhs, rhs
+      Monad.bind(lhs, rhs)
     end
   end
 
@@ -24,7 +24,7 @@ defmodule Monad.Operators do
   """
   defmacro lhs <|> rhs do
     quote bind_quoted: [lhs: lhs, rhs: rhs] do
-      Functor.fmap rhs, lhs
+      Functor.fmap(rhs, lhs)
     end
   end
 
@@ -35,7 +35,7 @@ defmodule Monad.Operators do
   """
   defmacro lhs <~> rhs do
     quote bind_quoted: [lhs: lhs, rhs: rhs] do
-      Applicative.apply rhs, lhs
+      Applicative.apply(rhs, lhs)
     end
   end
 

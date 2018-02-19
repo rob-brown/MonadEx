@@ -55,7 +55,6 @@ defmodule Monad.Reader do
   @spec runReader(t) :: (term -> term)
   def runReader(reader), do: reader.fun
 
-
   @doc """
   Callback implementation of `Monad.Behaviour.return/1`.
 
@@ -80,10 +79,10 @@ defmodule Monad.Reader do
   """
   @spec bind(t, (term -> t)) :: t
   def bind(reader, fun) when is_function(fun, 1) do
-    reader fn x ->
+    reader(fn x ->
       fun1 = reader |> runReader
       fun2 = x |> fun1.() |> fun.() |> runReader
       fun2.(x)
-    end
+    end)
   end
 end

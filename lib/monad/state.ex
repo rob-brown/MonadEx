@@ -65,7 +65,7 @@ defmodule Monad.State do
       {42, "My state"}
   """
   @spec return(term) :: t
-  def return(value), do: state fn s -> {value, s} end
+  def return(value), do: state(fn s -> {value, s} end)
 
   @doc """
   Callback implementation of `Monad.Behaviour.bind/2`.
@@ -78,10 +78,10 @@ defmodule Monad.State do
   """
   @spec bind(t, (term -> t)) :: t
   def bind(state_monad, fun) when is_function(fun, 1) do
-    state fn x ->
+    state(fn x ->
       {val1, state1} = (state_monad |> runState).(x)
       {val2, state2} = (val1 |> fun.() |> runState).(state1)
       {val2, state2}
-    end
+    end)
   end
 end

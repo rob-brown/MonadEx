@@ -9,7 +9,7 @@ defmodule Curry.Test do
   end
 
   test "Curry 1" do
-    assert curry(&(&1)).(1) == 1
+    assert curry(& &1).(1) == 1
   end
 
   test "Curry 2" do

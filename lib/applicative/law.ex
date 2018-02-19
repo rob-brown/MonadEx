@@ -9,7 +9,7 @@ defmodule Applicative.Law do
 
   # pure id <*> v = v
   def identity?(applicative, pure_fun) do
-    pure_fun.((& &1)) <~> applicative == applicative
+    pure_fun.(& &1) <~> applicative == applicative
   end
 
   # pure (.) <*> u <*> v <*> w = u <*> (v <*> w)

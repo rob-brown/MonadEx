@@ -85,8 +85,8 @@ defmodule Monad.Result do
       "Failed"
   """
   @spec from_tuple(result_tuple) :: t
-  def from_tuple({:ok, value}), do: success value
-  def from_tuple({:error, reason}), do: error reason
+  def from_tuple({:ok, value}), do: success(value)
+  def from_tuple({:error, reason}), do: error(reason)
 
   @doc """
   Converts the `Monad.Result` to a tagged tuple.
@@ -127,7 +127,7 @@ defmodule Monad.Result do
       nil
   """
   @spec return(term) :: t
-  def return(value), do: success value
+  def return(value), do: success(value)
 
   @doc """
   Callback implementation of `Monad.Behaviour.bind/2`.
@@ -153,7 +153,8 @@ defmodule Monad.Result do
   """
   @spec bind(t, (term -> t)) :: t
   def bind(result = %Monad.Result{type: :error}, _fun), do: result
+
   def bind(result = %Monad.Result{type: :ok}, fun) when is_function(fun, 1) do
-      result |> unwrap! |> fun.()
+    result |> unwrap! |> fun.()
   end
 end

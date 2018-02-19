@@ -21,15 +21,14 @@ defprotocol Monad do
 end
 
 defimpl Monad, for: List do
-
   def bind(list, fun) when is_function(fun, 1) do
     list |> Enum.flat_map(fun)
   end
 end
 
 defimpl Monad, for: Any do
-
   def bind(nil, fun) when is_function(fun, 1), do: nil
+
   def bind(value, fun) when is_function(fun, 1) do
     fun.(value)
   end
