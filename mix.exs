@@ -4,8 +4,8 @@ defmodule Monad.Mixfile do
   def project do
     [
       app: :monadex,
-      version: "1.1.2",
-      elixir: "~> 1.4.0",
+      version: "1.1.3",
+      elixir: "~> 1.4",
       name: "MonadEx",
       source_url: "https://github.com/rob-brown/MonadEx",
       homepage_url: "https://github.com/rob-brown/MonadEx",
@@ -24,8 +24,8 @@ defmodule Monad.Mixfile do
 
   defp deps do
     [
-      {:earmark, "~> 1.0.3", only: :dev},
-      {:ex_doc, "~> 0.14.3", only: :dev},
+      {:earmark, "~> 1.2.4", only: :dev},
+      {:ex_doc, "~> 0.18.3", only: :dev},
     ]
   end
 
