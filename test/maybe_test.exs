@@ -92,8 +92,8 @@ defmodule Maybe.Test do
   end
 
   test "bind" do
-    assert some(42) ~>> &(some(&1) |> unwrap! == 42)
-    assert some(42) ~>> &(some(&1 * 2) |> unwrap! == 84)
-    assert some(42) ~>> &(some(&1 * &1) |> unwrap! == 1764)
+    assert some(42) ~>> (&some(&1)) |> unwrap! == 42
+    assert some(42) ~>> (&some(&1 * 2)) |> unwrap! == 84
+    assert some(42) ~>> (&some(&1 * &1)) |> unwrap! == 1764
   end
 end

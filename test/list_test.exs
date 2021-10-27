@@ -44,15 +44,15 @@ defmodule List.Test do
   end
 
   test "bind many" do
-    assert ["Billy", "Timmy"] ~>> &["Hello, #{&1}"] == ["Hello, Billy", "Hello, Timmy"]
+    assert ["Billy", "Timmy"] ~>> (&["Hello, #{&1}"]) == ["Hello, Billy", "Hello, Timmy"]
   end
 
   test "bind flatten" do
-    assert ["hello"] ~>> &[&1, &1] == ["hello", "hello"]
+    assert ["hello"] ~>> (&[&1, &1]) == ["hello", "hello"]
   end
 
   test "bind flatten many" do
-    assert ["hello", "goodbye"] ~>> &[&1, &1] == ["hello", "hello", "goodbye", "goodbye"]
+    assert ["hello", "goodbye"] ~>> (&[&1, &1]) == ["hello", "hello", "goodbye", "goodbye"]
   end
 
   test "fmap zero" do

@@ -54,9 +54,9 @@ defmodule Result.Test do
   end
 
   test "bind" do
-    assert success(42) ~>> &(success(&1) |> unwrap! == 42)
-    assert success(42) ~>> &(success(&1 * 2) |> unwrap! == 84)
-    assert success(42) ~>> &(success(&1 * &1) |> unwrap! == 1764)
+    assert success(42) ~>> (&success(&1)) |> unwrap! == 42
+    assert success(42) ~>> (&success(&1 * 2)) |> unwrap! == 84
+    assert success(42) ~>> (&success(&1 * &1)) |> unwrap! == 1764
   end
 
   test "fmap one" do

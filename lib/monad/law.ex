@@ -26,6 +26,6 @@ defmodule Monad.Law do
   # (m >>= f) >>= g ≡ m >>= ( \x -> (f x >>= g) )
   @doc false
   def associativity?(monad, fun1, fun2) do
-    monad ~>> fun1 ~>> fun2 == monad ~>> &(fun1.(&1) ~>> fun2)
+    monad ~>> fun1 ~>> fun2 == monad ~>> (&(fun1.(&1) ~>> fun2))
   end
 end

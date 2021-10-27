@@ -7,9 +7,9 @@ defmodule Monad.Test do
   doctest Monad.Behaviour
 
   test "bind" do
-    assert 42 ~>> &(&1 == 42)
-    assert 42 ~>> &(&1 * 2 == 84)
-    assert 42 ~>> &(&1 * &1 == 1764)
+    assert 42 ~>> (& &1) == 42
+    assert 42 ~>> (&(&1 * 2)) == 84
+    assert 42 ~>> (&(&1 * &1)) == 1764
   end
 
   test "fmap one" do

@@ -26,15 +26,15 @@ defmodule Writer.Test do
   end
 
   test "bind once" do
-    writer = writer(42) ~>> &writer(&1, "I did it")
+    writer = writer(42) ~>> (&writer(&1, "I did it"))
     assert writer == writer(42, "I did it")
   end
 
   test "bind twice with string monoid" do
     writer =
       writer(42)
-      ~>> &writer(&1 * 2, "Double")
-      ~>> &writer(&1 * 3, "Triple")
+      ~>> (&writer(&1 * 2, "Double"))
+      ~>> (&writer(&1 * 3, "Triple"))
 
     assert writer == writer(252, "DoubleTriple")
   end
@@ -42,8 +42,8 @@ defmodule Writer.Test do
   test "bind twice with array monoid" do
     writer =
       writer(42)
-      ~>> &writer(&1 * 2, ["Double"])
-      ~>> &writer(&1 * 3, ["Triple"])
+      ~>> (&writer(&1 * 2, ["Double"]))
+      ~>> (&writer(&1 * 3, ["Triple"]))
 
     assert writer == writer(252, ["Double", "Triple"])
   end
